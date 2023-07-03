@@ -1,0 +1,386 @@
+// try {
+    //   const user = await User.findById(userId);
+    //   if (!user) {
+    //     return res.status(404).send("User not found");
+    //   }
+
+    //   if (password) {
+    //     const salt = await bcrypt.genSalt(10);
+    //     const hashedPassword = await bcrypt.hash(password, salt);
+    //     user.password = hashedPassword;
+    //   }
+    //   else {
+    //     user.name = name;
+    //     user.username = username;
+    //     user.email = email;
+    //     user.contact = contact;
+    //   }
+
+    //   await user.save();
+    //   res.send(user);
+    // } catch (err) {
+    //   console.log(err);
+    //   res.status(500).send("An error occurred.");
+    // }
+
+    // app.get("/users", async function (req, res) {
+//   try{
+//     const users = await User.find({});
+//     return res.send({ statusCode: 200, message: 'success', data: users})
+//   }catch(err){
+//     console.log(err);
+//   }
+// });
+
+// app.post("/users", async function (req, res) {
+//     var Name = req.body.name;
+//     var UserName = req.body.username;
+//     var email = req.body.email;
+//     var contactNo = req.body.contact;
+//     var userPassword = req.body.password;
+//     console.log(Name);
+//     const existingUser = await User.findOne({ username: UserName });
+//     if (existingUser) {
+//         return res.send("User already exists!");
+//     }
+//     const user = new User({
+//       name: Name,  
+//       username: UserName,
+//       email: email,
+//       contact: contactNo,
+//       password: userPassword
+//     });
+
+//     try {
+//         await user.save();
+//         res.send("User created successfully!");
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).send("An error occurred.");
+//     }
+// });
+
+// app.patch("/users/:id", async function(req, res) {
+//   const userId = req.params.id;
+//   const {name} = req.body;
+//   const {username} = req.body;
+//   const {email} = req.body;
+//   const {contact} = req.body;
+//   const {password} = req.body;
+
+//   try {
+//     const updatedUser = await User.findByIdAndUpdate(
+//       userId,
+//       {
+//         name,username,email,contact,password
+//       }
+//     );
+//     if (!updatedUser) {
+//       return res.status(404).send("User not found");
+//     }
+//     res.send(updatedUser);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send("An error occurred.");
+//   }
+// });
+
+// app.delete("/users/:id", async function (req, res) {
+//     var userId = req.params.id;
+//     try {
+//         const deletedUser = await User.findByIdAndDelete(userId);
+
+//         console.log("Deleted");
+
+//         if (!deletedUser) { return res.status(404).send("User not found");}
+//         res.send(deletedUser);
+//     }
+//     catch (err) {
+//         console.log(err);
+//         res.status(500).send("An error occurred.");
+//     }
+// });
+
+// app.post("/login", async function (req, res) {
+//   const { username, password } = req.body;
+
+//   try {
+//     const user = await User.findOne({ username: username });
+//     if (!user) {
+//       return res.send("Invalid username or password");
+//     }
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       return res.send("Invalid username or password");
+//     }
+
+//     // Passwords match, user is authenticated
+//     // Generate and send authentication token, redirect, etc.
+//     res.send("Login successful");
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send("An error occurred.");
+//   }
+// });
+
+
+
+// import React from 'react';
+
+// const UserList = () => {
+//   const activeUsers = [
+//     { id: 1, name: 'User1' },
+//     { id: 2, name: 'User2' },
+//     { id: 3, name: 'User3' },
+//     { id: 4, name: 'User4' },
+//     { id: 5, name: 'User5' },
+//     { id: 6, name: 'User6' },
+//   ];
+
+//   return (
+//     <div class="flex items-center justify-center h-screen">
+//     <div className="grid  place-items-center content-between border-4 border-light-blue-500 border-opacity-100 p-10">
+//       <h1 className="text-xl">User List</h1>
+//       <ul class="w-96">
+
+//       {activeUsers.map((user) => (
+//        <li className="w-full border-b-2 border-neutral-400 border-opacity-100 py-4 dark:border-opacity-100" key={user.id}>{user.name}</li>
+//      ))}
+
+
+// </ul>
+//     </div>
+//      </div>
+
+
+//   );
+// };
+
+// export default UserList;
+
+
+
+ // .get(async function (req, res) {
+  //   try {
+  //     const users = await User.find({}).select('-password -__v -dob -email');
+  //     return res.send({ statusCode: 200, message: 'success', data: users });
+  //   } catch (err) {
+
+  //     console.log(err); 
+  //     return res.status(500).send({ statusCode: 500, message: 'Internal server error' });
+  //   }
+  // })
+
+
+
+
+
+
+
+
+
+
+useEffect(() => {
+    socket.on('connected', () => {
+      socket.emit('set-up', userId);
+    });
+
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }, [userId]);
+
+  const setUserIdContext = (id) => {
+    setUserId(id);
+  };
+
+  useEffect(() => {
+    socket.on('receive', (data) => {
+      console.log(`Received message: ${data.message} from user: ${data.userId}`);
+    });
+  }, []);
+
+  const sendMessageToUser = (message, userId) => {
+    console.log(`Sending message: ${message} to user: ${userId}`);
+    socket.emit('send', { message, userId });
+  };
+
+
+
+
+    // .get(async function(req, res){
+  //   const { senderId, receiverId } = req.query;
+  // try {
+  //   const messages = await Message.find({
+  //     $or: [
+  //       { sender: senderId, receiver: receiverId },
+  //       { sender: receiverId, receiver: senderId }
+  //     ]
+  //   }).sort({ sentAt: 1 });
+
+  //   return res.send({ statusCode: 200, message: 'success', data: messages });
+  // } catch (err) {
+  //   console.log(err);
+  //   return res.status(500).send({ statusCode: 500, message: 'Internal server error' });
+  // }
+  // })
+
+
+
+  app.route("/upload")
+  .post(upload.array('file', 5), function (req, res) {
+    // console.log(req.file.filename);
+    const filePath = req.file.map(file => file.path);
+    const fileOriginalName = req.file.map(file=>file.originalname);
+    try {
+      return res.status(200).send({ statusCode: 200, 
+        data: {filePath, fileOriginalName} 
+      });
+    } catch (err) {
+      return res.status(500).send({ statusCode: 500, message: 'Internal server error' });
+    }
+  })
+
+
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "public/uploads");
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      cb(null, uniqueSuffix + '-' + file.originalname);
+    }
+  });
+  
+  const limits = {
+    file: 5
+  };
+  
+  const upload = multer({ storage: storage }, {limits: limits});
+  
+
+
+  {/* <li 
+              // className="text-sm text-gray-500"
+              className={`text-sm ${user.isOnline ? ' text-green-600' : 'text-red-600'}`}
+              >{user.isOnline ? 'Online' : 'Offline'}</li> */}
+
+
+
+
+              // const users = await User.aggregate([
+      //   // Exclude the current user
+      //   { $match: { _id: { $ne: new ObjectId(currentUser) } } },
+      //   // Perform a left join with the Messages collection to get the last message timestamp for each user
+      //   {
+      //     $lookup: {
+      //       from: "messages",
+      //       let: { receiverId: "$_id" },
+      //       pipeline: [
+      //         { $match: { $expr: { $eq: ["$receiverId", "$$receiverId"] } } },
+      //         { $sort: { sentAt: -1 } },
+      //         { $limit: 1 },
+      //       ],
+      //       as: "lastMessage",
+      //     },
+      //   },
+      //   // Project only the necessary fields
+      //   {
+      //     $project: {
+      //       _id: 1,
+      //       name: 1,
+      //       isOnline: 1,
+      //       lastMessage: { $arrayElemAt: ["$lastMessage", 0] },
+      //     },
+      //   },
+      //   // Sort the users based on the last message timestamp in descending order
+      //   { $sort: { "lastMessage.sentAt": -1 } },
+      // ]);
+
+      // return res.send({ statusCode: 200, message: 'success', data: users });
+      const users = await User.aggregate([
+        // Exclude the current user
+        { $match: { _id: { $ne: new ObjectId(currentUser) } } },
+        // Perform a left join with the Messages collection to get the last message timestamp for each user
+        {
+          $lookup: {
+            from: "messages",
+            let: { receiverId: "$_id" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$receiverId", "$$receiverId"] } } },
+              { $sort: { sentAt: -1 } },
+              { $limit: 1 },
+            ],
+            as: "lastMessage",
+          },
+        },
+        // Project only the necessary fields
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            isOnline: 1,
+            unreadCount: {
+              $cond: {
+                if: {
+                  $and: [
+                    { $isArray: "$lastMessage" },
+                    { $ne: ["$lastMessage", []] },
+                    { $eq: ["$lastMessage.senderId", currentUser] },
+                  ],
+                },
+                then: 0,
+                else: { $size: "$lastMessage" },
+              },
+            },
+          },
+        },
+        // Sort the users based on the last message timestamp in descending order
+        { $sort: { "lastMessage.sentAt": -1 } },
+      ]);
+
+      return res.send({ statusCode: 200, message: 'success', data: users });
+
+
+
+
+              
+        // {
+        //   $lookup: {
+        //     from: "messages",
+        //     let: { userId: "$_id" },
+        //     pipeline: [
+        //       {
+        //         $match: {
+        //           $expr: {
+        //             $or: [
+        //               { $eq: ["$senderId", "$$userId"] },
+        //               { $eq: ["$receiverId", "$$userId"] }
+        //             ],
+        //           },
+        //         },
+        //       },
+        //       {
+        //         $sort: { createdAt: -1 }
+        //       },
+        //       {
+        //         $limit: 1
+        //       }
+        //     ],
+        //     as: "lastMessage",
+        //   },
+        // },
+
+
+              // const allUsers = chats.reduce((names, chat) => {
+      //   if (chat.senderId._id.toString() !== currentUser) {
+      //     names.push(chat.senderId.name);
+      //   }
+      //   if (chat.receiverId._id.toString() !== currentUser) {
+      //     names.push(chat.receiverId.name);
+      //   }
+      //   return names;
+      // }, []);
+
+      // return res.status(200).send({ statusCode: 200, message: "success", data: allUsers });
